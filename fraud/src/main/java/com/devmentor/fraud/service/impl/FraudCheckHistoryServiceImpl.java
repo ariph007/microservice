@@ -14,7 +14,7 @@ public class FraudCheckHistoryServiceImpl implements FraudCheckHistoryService {
   private final FraudCheckHistoryRepository fraudCheckHistoryRepository;
 
   @Override
-  public Boolean isFraudlentCustomer(Integer customerId) {
+  public Boolean isFraudulentCustomer(Integer customerId) {
     fraudCheckHistoryRepository.saveAndFlush(FraudCheckHistory.builder()
         .customerId(customerId)
         .isFraudster(false)

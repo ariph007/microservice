@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 @AllArgsConstructor
-public class CustomerRegistrationImpl implements CustomerService {
+public class CustomerServiceImpl implements CustomerService {
 
   private final CustomerRepository customerRepository;
   private final RestTemplate restTemplate;
@@ -25,7 +25,7 @@ public class CustomerRegistrationImpl implements CustomerService {
     //! check if fraudster
     Customer savedCustomer = customerRepository.saveAndFlush(customer);
     FraudCheckResponse response = restTemplate.getForObject(
-        "http://localhost:8081/api/v1/fraud-check/{customerId}",
+        "http://FRAUD/api/v1/fraud-check/{customerId}",
         FraudCheckResponse.class,
         savedCustomer.getId()
     );

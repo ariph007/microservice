@@ -1,6 +1,6 @@
 package com.devmentor.fraud.controller;
 
-import com.devmentor.fraud.model.response.FraudCheckResponse;
+import com.devmentor.clients.fraud.model.response.FraudCheckResponse;
 import com.devmentor.fraud.service.FraudCheckHistoryService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

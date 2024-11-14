@@ -2,6 +2,8 @@ package com.devmentor.customer.service.impl;
 
 import com.devmentor.clients.fraud.FraudClient;
 import com.devmentor.clients.fraud.model.response.FraudCheckResponse;
+import com.devmentor.clients.notification.NotificationClient;
+import com.devmentor.clients.notification.model.request.NotificationRequest;
 import com.devmentor.customer.model.request.CustomerRegistrationRequest;
 import com.devmentor.customer.persistence.entity.Customer;
 import com.devmentor.customer.persistence.repository.CustomerRepository;
@@ -9,15 +11,15 @@ import com.devmentor.customer.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 @AllArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
   private final CustomerRepository customerRepository;
-  private final RestTemplate restTemplate;
   private final FraudClient fraudClient;
+  private final NotificationClient notificationClient;
+
 
   @Override
   public void registerCustomer(CustomerRegistrationRequest request) {
@@ -39,7 +41,12 @@ public class CustomerServiceImpl implements CustomerService {
       throw new IllegalStateException("Customer is fraudulent");
     }
 
-
     //! send notification
+    NotificationRequest notificationRequest = new NotificationRequest();
+    notificationRequest.setCustomerId(savedCustomer.getId());
+    notificationRequest.setCustomerEmail(savedCustomer.getEmail());
+    notificationRequest.setMessage(String.format("Hi %s, welcome to Devmentor...", savedCustomer.getFirstName()));
+    notificationClient.sendNotification(notificationRequest);
+
   }
 }

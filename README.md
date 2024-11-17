@@ -25,6 +25,7 @@
 - Open Feign
 - Eureka 
 - Zipkin
+- Micrometer Tracing
 - RabbitMQ
 - Docker
 

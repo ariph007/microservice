@@ -18,7 +18,22 @@ services:
     container_name: zipkin
     ports:
       - "9411:9411"
-
+  rabbitmq:
+    image: rabbitmq:4.0.3-management-alpine
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    configs:
+      - source: plugins
+        target: /etc/rabbitmq/enabled_plugins
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "2883:1883"
+configs:
+  plugins:
+    content: "[rabbitmq_management, rabbitmq_mqtt]."
 networks:
   postgres:
     driver: bridge

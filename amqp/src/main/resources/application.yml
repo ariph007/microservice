@@ -1,0 +1,12 @@
+spring:
+  rabbitmq:
+    host: localhost
+    virtual-host: /
+    port: 15672
+    username: guest
+    password: guest
+    template:
+      reply-timeout: 60000
+      exchange: internal.exchange
+      default-receive-queue: notification.queue
+      routing-key: internal.notification.routing-key

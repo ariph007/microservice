@@ -5,7 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication
+@SpringBootApplication(
+    scanBasePackages = {
+        "com.devmentor.customer",
+        "com.devmentor.amqp"
+    }
+)
 @EnableFeignClients(
     basePackages = "com.devmentor.clients"
 )

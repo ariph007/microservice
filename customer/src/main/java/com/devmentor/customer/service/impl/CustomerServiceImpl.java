@@ -1,5 +1,6 @@
 package com.devmentor.customer.service.impl;
 
+import com.devmentor.amqp.RabbitMQMessageProducer;
 import com.devmentor.clients.fraud.FraudClient;
 import com.devmentor.clients.fraud.model.response.FraudCheckResponse;
 import com.devmentor.clients.notification.NotificationClient;
@@ -19,6 +20,7 @@ public class CustomerServiceImpl implements CustomerService {
   private final CustomerRepository customerRepository;
   private final FraudClient fraudClient;
   private final NotificationClient notificationClient;
+  private final RabbitMQMessageProducer rabbitMQMessageProducer;
 
 
   @Override
@@ -46,7 +48,13 @@ public class CustomerServiceImpl implements CustomerService {
     notificationRequest.setCustomerId(savedCustomer.getId());
     notificationRequest.setCustomerEmail(savedCustomer.getEmail());
     notificationRequest.setMessage(String.format("Hi %s, welcome to Devmentor...", savedCustomer.getFirstName()));
-    notificationClient.sendNotification(notificationRequest);
+//    notificationClient.sendNotification(notificationRequest);
+
+    rabbitMQMessageProducer.publish(
+        notificationRequest,
+        "internal.exchange",
+        "internal.notification.routing-key"
+    );
 
   }
 }
